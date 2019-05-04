@@ -1,2 +1,6 @@
 /target
 **/*.rs.bk
+
+.DS_Store
+output.log
+config.yaml

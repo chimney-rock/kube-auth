@@ -28,5 +28,5 @@ impl<'a> HealthResponse<'a> {
 
 /// HTTP handler for health checks.
 pub fn handler(_db: web::Data<Database>) -> impl Future<Item = HttpResponse, Error = Error> {
-  result(Ok(HttpResponse::Ok().json(HealthResponse::create()))).responder()
+  result(Ok(HttpResponse::Ok().json(HealthResponse::create())))
 }

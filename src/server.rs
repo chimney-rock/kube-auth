@@ -3,11 +3,10 @@ use actix_web::{App, HttpServer, web, middleware};
 use failure::Fallible;
 use std::io;
 
-use crate::settings::{Settings, TLSConfig};
 use crate::db::Database;
+use crate::settings::Settings;
 
 mod healthz;
-pub mod responses;
 
 /// HTTP Server object.
 pub struct Server {
@@ -38,7 +37,7 @@ impl Server {
     if settings.inbound_listener.tls.enabled {
       server.bind_ssl(
         &settings.inbound_listener.address,
-        Self::build_tls(&settings.inbound_listener.tls)?
+        Self::build_tls(&settings.inbound_listener.tls.private_key, &settings.inbound_listener.tls.cert)?
       )?.start();
     }
     else {
@@ -57,10 +56,10 @@ impl Server {
   /// 
   /// # Arguments
   /// * `tls` - TLS configuration settings.
-  fn build_tls(tls: &TLSConfig) -> Fallible<SslAcceptorBuilder> {
+  fn build_tls(private_key: &str, cert: &str) -> Fallible<SslAcceptorBuilder> {
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls())?;
-    builder.set_private_key_file(&tls.private_key, SslFiletype::PEM)?;
-    builder.set_certificate_chain_file(&tls.cert)?;
+    builder.set_private_key_file(private_key, SslFiletype::PEM)?;
+    builder.set_certificate_chain_file(cert)?;
     Ok(builder)
   }
 }

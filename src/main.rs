@@ -8,6 +8,7 @@ use clap::{App, Arg};
 
 mod db;
 mod logging;
+mod kubernetes;
 mod server;
 mod settings;
 

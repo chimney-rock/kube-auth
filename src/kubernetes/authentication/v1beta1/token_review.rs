@@ -2,6 +2,8 @@ use serde::{de::{self, Deserialize, Deserializer, Visitor}, ser::SerializeStruct
 
 use crate::kubernetes::Resource;
 
+/// TokenReview attempts to authenticate a token to a known user.
+/// Note: TokenReview requests may be cached by the webhook token authenticator plugin in the kube-apiserver.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct TokenReview {
   pub spec:   super::TokenReviewSpec,
@@ -11,10 +13,6 @@ pub struct TokenReview {
 impl Resource for TokenReview {
   fn api_version() -> &'static str {
     "authentication.k8s.io/v1beta1"
-  }
-
-  fn group() -> &'static str {
-    "authentication.k8s.io"
   }
 
   fn kind() -> &'static str {

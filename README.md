@@ -17,3 +17,9 @@ database:
   password: super_secret_password_here
 
 ```
+
+## Testing
+
+```shell
+http POST http://127.0.0.1:9000/api/authenticate kind=TokenReview apiVersion=authentication.k8s.io/v1beta1 spec:='{"token":"kitty"}'
+```

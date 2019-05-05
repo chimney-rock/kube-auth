@@ -7,6 +7,7 @@ use crate::db::Database;
 use crate::settings::Settings;
 
 mod api;
+mod errors;
 
 /// HTTP Server object.
 pub struct Server {

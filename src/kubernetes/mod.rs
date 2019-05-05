@@ -6,9 +6,6 @@ pub trait Resource {
   /// or just the version for resources without a group (eg `"v1"`).
   fn api_version() -> &'static str where Self: Sized;
 
-  /// The group of the resource, or the empty string if the resource doesn't have a group.
-  fn group() -> &'static str where Self: Sized;
-
   /// The kind of the resource.
   fn kind() -> &'static str where Self: Sized;
 

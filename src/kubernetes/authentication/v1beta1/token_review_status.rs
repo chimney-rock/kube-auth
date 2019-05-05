@@ -21,10 +21,10 @@ pub struct TokenReviewStatus {
 }
 
 impl TokenReviewStatus {
-  pub fn denied() -> TokenReviewStatus {
-    TokenReviewStatus {
+  pub fn denied() -> Option<TokenReviewStatus> {
+    Some(TokenReviewStatus {
       authenticated: Some(false),
       ..Default::default()
-    }
+    })
   }
 }

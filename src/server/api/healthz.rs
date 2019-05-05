@@ -1,5 +1,4 @@
 use actix_web::{Error, HttpResponse, web};
-// use futures::future::{Future, ok};
 use futures::future::{Future, result};
 use serde::Serialize;
 

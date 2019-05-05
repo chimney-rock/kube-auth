@@ -6,7 +6,7 @@ use std::io;
 use crate::db::Database;
 use crate::settings::Settings;
 
-mod healthz;
+mod api;
 
 /// HTTP Server object.
 pub struct Server {
@@ -30,7 +30,11 @@ impl Server {
         .wrap(middleware::Logger::default())
         .service(
           web::scope("/api")
-            .service(web::resource("/healthz").to_async(healthz::handler))
+            .service(web::resource("/healthz").to_async(api::healthz))
+            .service(
+              web::resource("/authenticate")
+                .route(web::post().to_async(api::authenticate))
+            )
         )
     });
 

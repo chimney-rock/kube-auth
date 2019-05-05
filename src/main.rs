@@ -1,7 +1,11 @@
 #[macro_use]
 extern crate clap;
 
-extern crate actix_web;
+#[macro_use]
+extern crate log;
+
+#[macro_use]
+extern crate validator_derive;
 
 use failure::Fallible;
 use clap::{App, Arg};

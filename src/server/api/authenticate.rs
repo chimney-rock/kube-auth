@@ -1,6 +1,6 @@
 use jsonwebtoken::{decode as jwt_decode, Header, Algorithm, Validation};
 use actix_web::{Error, HttpResponse, web};
-use futures::future::{Future, IntoFuture, Either, err, result};
+use futures::future::{Future, IntoFuture, Either, ok, err, result};
 use serde::Deserialize;
 
 #[derive(Clone, Debug, Default, PartialEq, Deserialize)]
@@ -18,6 +18,8 @@ use crate::kubernetes::authentication::v1beta1::{TokenReview, TokenReviewStatus}
 
 /// HTTP handler token authentication.
 pub fn handler(token_review: web::Json<TokenReview>, _db: web::Data<Database>) -> impl Future<Item = HttpResponse, Error = Error> {
+  let token_review = token_review.into_inner();
+  
   debug!("Parsing TokenReview request = {:?}", token_review);
 
   let mut response = token_review.to_owned();
@@ -26,14 +28,13 @@ pub fn handler(token_review: web::Json<TokenReview>, _db: web::Data<Database>) -
   })
   .then(move |res| match res {
     Ok(token) => {
-      debug!("{:?}", token);
       response.status = TokenReviewStatus::denied();
-      result(Ok(HttpResponse::Unauthorized().json(response)))
+      ok(HttpResponse::Unauthorized().json(response))
     },
     Err(e) => {
       debug!("ERROR = {:?}", e);
       response.status = TokenReviewStatus::denied();
-      result(Ok(HttpResponse::Unauthorized().json(response)))
+      ok(HttpResponse::Unauthorized().json(response))
     }
   })
 }

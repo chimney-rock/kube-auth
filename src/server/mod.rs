@@ -1,5 +1,5 @@
 use openssl::ssl::{SslMethod, SslAcceptor, SslAcceptorBuilder, SslFiletype};
-use actix_web::{App, HttpServer, web, middleware};
+use actix_web::{middleware::{Logger, cors::Cors}, App, HttpServer, web};
 use failure::Fallible;
 use std::io;
 
@@ -8,6 +8,7 @@ use crate::settings::Settings;
 
 mod api;
 mod errors;
+pub use errors::HttpError;
 
 /// HTTP Server object.
 pub struct Server {
@@ -28,10 +29,14 @@ impl Server {
     let server = HttpServer::new(move || {
       App::new()
         .data(database.clone())
-        .wrap(middleware::Logger::default())
+        .wrap(Logger::default())
+        .wrap(Cors::default())
         .service(
           web::scope("/api")
-            .service(web::resource("/healthz").to_async(api::healthz))
+            .service(
+              web::resource("/healthz")
+                .route(web::get().to_async(api::healthz))
+            )
             .service(
               web::resource("/authenticate")
                 .route(web::post().to_async(api::authenticate))

@@ -94,7 +94,7 @@ impl From<DieselError> for HttpError {
         }
         HttpError::InternalServerError
       }
-      _ => HttpError::InternalServerError,
+      _ => HttpError::InternalServerError
     }
   }
 }

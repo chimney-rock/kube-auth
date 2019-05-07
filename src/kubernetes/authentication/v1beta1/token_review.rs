@@ -145,7 +145,7 @@ mod tests {
           }
         }"#;
       let review: TokenReview = serde_json::from_str(&json).unwrap();
-      assert_eq!(review.spec.token, Some("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxc3Qtc2hpYmUiLCJuYW1lIjoiVGFrYXJhIiwiaWF0IjoxNTE2MjM5MDIyfQ.jvzLvx1iDgLotO5-tClI5ZuUW8yEUKR_YKh-FYdlvaM".to_owned()));
+      assert_eq!(review.spec.token, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxc3Qtc2hpYmUiLCJuYW1lIjoiVGFrYXJhIiwiaWF0IjoxNTE2MjM5MDIyfQ.jvzLvx1iDgLotO5-tClI5ZuUW8yEUKR_YKh-FYdlvaM".to_owned());
     }
 
     #[should_panic]
